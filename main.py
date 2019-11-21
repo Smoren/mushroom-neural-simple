@@ -56,6 +56,19 @@ class Neuron:
 
     @staticmethod
     def get_loss_derivative(x, w, y, a):
+        # THEORY:
+        #
+        # loss(y, a) = (y - a) ^ 2
+        # sigmoid(x) = 1 / (1 + exp(-x))
+        #
+        # d(loss(y, a)) / d(w) = d(loss(y, a)) / d(y) * d(sigmoid(wx)) / d(wx) * d(wx) / d(x)
+        #
+        # a = d(loss(y, a)) / d(y) = 2(y - a) * 1 = 2(y - a)
+        # b = d(sigmoid(wx)) / d(wx) = exp(-wx) / (1 + exp(-wx)) ^ 2
+        # c = d(wx) / d(w) = x
+        #
+        # d(loss(y, a)) / d(w) = 2(y - a) * exp(-wx) / (1 + exp(-wx)) ^ 2 * x
+
         return 2*(y - a) * math.exp(-w*x)/(1 + math.exp(-w*x))**2 * x
 
     @staticmethod
