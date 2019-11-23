@@ -2,6 +2,85 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="44d48f36-4a38-4730-a1cb-04da6915cd53" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/images/0/23503.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/0/28044.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/0/28817.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/0/32724.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/0/40234.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/1/23320.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/1/56868.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/2/16163.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/2/24280.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/2/32371.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/2/48942.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/2/49326.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/2/55557.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/2/61364.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/2/63164.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/2/74373.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/2/75869.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/2/78249.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/2/95083.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/2/98963.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/2/99806.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/3/23465.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/3/28250.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/3/29852.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/3/30425.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/3/36178.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/3/36472.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/3/65386.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/3/86431.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/3/90410.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/4/34546.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/4/48275.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/4/60039.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/4/67232.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/4/80981.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/4/95037.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/4/95550.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/5/17671.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/5/23983.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/5/38495.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/5/51238.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/5/54548.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/5/65860.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/5/75300.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/5/77639.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/5/78857.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/5/82587.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/5/84292.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/5/89397.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/5/94171.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/5/98851.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/6/10197.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/6/25456.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/6/34996.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/6/74252.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/7/14513.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/7/14712.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/7/32689.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/7/37341.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/7/51422.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/7/54613.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/7/58629.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/7/81856.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/7/82103.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/7/84988.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/7/93202.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/8/16861.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/8/34288.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/8/34588.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/9/32189.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/9/53387.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/9/55420.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/9/63494.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/9/64525.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/9/79777.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/9/95465.xpm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/test/1.xpm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/neuro-simple.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/neuro-simple.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -25,8 +104,13 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../imageai/imageai-first" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/numbers.py" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -39,6 +123,75 @@
         </RuleState>
       </list>
     </option>
+  </component>
+  <component name="RunManager" selected="Python.main">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="neuro-simple" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="neuro-simple" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="number" type="PythonConfigurationType" factoryName="Python">
+      <module name="neuro-simple" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/numbers.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.number" />
+    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
