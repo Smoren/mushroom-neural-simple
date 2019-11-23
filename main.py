@@ -5,7 +5,6 @@ class Neuron:
     def __init__(self):
         self.input = 0
         self.output = 0
-        self.output_need = 0
         self.loss = 0
         self.link_output = []
         self.link_input = []
@@ -35,56 +34,31 @@ class Neuron:
             link.send(self.output)
         return self
 
-    def calc_loss(self, output_need=None):
-        if output_need is not None:
-            self.output_need = output_need
+    def loss_gradient_if_output_layer(self, ref):
+        for link in self.link_output:
+            link.loss_gradient_if_output_layer(ref)
+        return self
 
-        self.loss = self.get_loss(self.output, self.output_need)
-        return self.loss
-
-    def back_propagation(self, step=1):
-        for link in self.link_input:
-            link.weight -= step * self.get_loss_derivative(link.n_from.output, link.weight,
-                                                          self.output, self.output_need)
-            link.n_from.output_need = self.get_activation_inverse(self.output_need) / link.weight
+    def loss_gradient_if_hidden_layer(self):
+        for link in self.link_output:
+            link.loss_gradient_if_hidden_layer()
         return self
 
     @staticmethod
     def get_activation(x):
-        return (math.exp(2*x) - 1) / (math.exp(2*x) + 1)
-        # return 1 / (1 + math.exp(-x))
+        return 1 / (math.exp(-x) + 1)
 
-    @staticmethod
-    def get_activation_derivative(x):
-        return 4*math.exp(2*x) / (math.exp(2*x) + 1)**2
-
-    @staticmethod
-    def get_activation_inverse(x):
-        if x == 1:
-            print(x)
-            exit()
-        return math.log(math.sqrt(-x - 1) / math.sqrt(x - 1))
+    @classmethod
+    def get_activation_derivative(cls, x):
+        return cls.get_activation(x) * (1 - cls.get_activation(x))
 
     @staticmethod
     def get_loss(output, output_need):
-        return (output-output_need)**2
+        return 1 / 2 * (output - output_need) ** 2
 
-    @classmethod
-    def get_loss_derivative(cls, x, w, y, a):
-        # THEORY:
-        #
-        # loss(y, a) = (y - a) ^ 2
-        # sigmoid(x) = (exp(2*x) - 1) / (exp(2*x) + 1)
-        #
-        # d(loss(y, a)) / d(w) = d(loss(y, a)) / d(y) * d(sigmoid(wx)) / d(wx) * d(wx) / d(x)
-        #
-        # a = d(loss(y, a)) / d(y) = 2(y - a) * 1 = 2(y - a)
-        # b = d(sigmoid(wx)) / d(wx) = 4*math.exp(2wx) / (exp(2wx)+1)^2
-        # c = d(wx) / d(w) = x
-        #
-        # d(loss(y, a)) / d(w) = 2(y - a) * (4exp(2wx) / (exp(2wx) + 1)^2) * x
-
-        return 2*(y - a) * cls.get_activation_derivative(w*x) * x
+    @staticmethod
+    def get_loss_derivative(x, a):
+        return x - a
 
     def __repr__(self):
         return "[{:.4f} => {:.4f}]".format(self.input, self.output)
@@ -142,9 +116,15 @@ class Layer:
             result.append(neuron.output_need)
         return result
 
-    def back_propagation(self, step=1):
+    def loss_gradient_if_output_layer(self, ref):
         for neuron in self.neurons:
-            neuron.back_propagation(step)
+            neuron.loss_gradient_if_output_layer(ref)
+        return self
+
+    def loss_gradient_if_hidden_layer(self):
+        for neuron in self.neuron:
+            neuron.loss_gradient_if_hidden_layer()
+        return self
 
     def __len__(self):
         return len(self.neurons)
@@ -158,9 +138,46 @@ class Link:
         self.n_from = n_from
         self.n_to = n_to
         self.weight = weight
+        self.weight_delta = 0
+        self.weight_delta_param = 0
 
     def send(self, signal):
         self.n_to.add(signal * self.weight)
+        return self
+
+    def loss_gradient_if_output_layer(self, ref):
+        de_dy = self.n_to.get_activation(self.n_to.input) - ref
+        dy_dz = self.n_to.get_activation_derivative(self.n_to.input)
+        dz_dw = self.n_from.output
+
+        self.weight_delta_param = de_dy * dy_dz
+        self.weight_delta = -de_dy * dy_dz * dz_dw
+
+        return self
+
+    def loss_gradient_if_hidden_layer(self):
+        self.weight_delta = 0
+        self.weight_delta_param = 0
+
+        de_dy = 0
+
+        for link in self.n_to.link_output:
+            dz_dy = link.weight
+            de_dy += link.weight_delta_param * dz_dy
+
+        dy_dz = self.link_to.get_activation_derivative(self.n_to.input)
+        dz_dw = self.n_from.output
+
+        self.weight_delta_param = de_dy * dy_dz
+        self.weight_delta = de_dy * dy_dz * dz_dw
+
+        return self
+
+    def apply_weight_delta(self):
+        self.weight += self.weight_delta
+        self.weight_delta = 0
+        self.weight_delta_param = 0
+        return self
 
 
 class NeuralNetwork:
@@ -176,9 +193,9 @@ class NeuralNetwork:
 
         self.layers[0].reset(input)
 
-        for i in range(0, len(self.layers)-1):
+        for i in range(0, len(self.layers) - 1):
             curr_layer = self.layers[i]
-            next_layer = self.layers[i+1]
+            next_layer = self.layers[i + 1]
 
             next_layer.reset()
             curr_layer.calc()
@@ -199,24 +216,7 @@ class NeuralNetwork:
         return self.layers[-1]
 
     def train(self, data):
-        for input, output_need in data:
-            self.run(input)
-
-            output_layer = self.layers[-1]
-            loss_sum = output_layer.calc_loss(output_need)
-            output_layer.back_propagation()
-
-            print(repr(self))
-            print(output_need)
-            print(loss_sum)
-
-            other_layers = self.layers[:-1][::-1]
-            for layer in other_layers:
-                loss_sum = layer.calc_loss()
-                output_need = layer.get_output_need()
-                output_layer.back_propagation()
-                print(output_need)
-                print(loss_sum)
+        pass
 
     def _add_layer(self, class_name, size):
         layer = Layer(class_name, size)
@@ -240,16 +240,16 @@ nn.add_input_layer(3)
 nn.add_hidden_layer(3)
 nn.add_output_layer(2)
 
-# nn.run([1, 1, 1])
-# print(repr(nn))
+nn.run([1, 1, 1])
+print(repr(nn))
 
-train_data = [
-    [[1, 0, 0], [1, 0]],
-    [[0, 1, 0], [1, 1]],
-    [[0, 0, 1], [0, 1]],
-    [[1, 0, 1], [1, 1]],
-    [[0, 0, 0], [0, 0]],
-]
-nn.train(train_data)
+# train_data = [
+#     [[1, 0, 0], [1, 0]],
+#     [[0, 1, 0], [1, 1]],
+#     [[0, 0, 1], [0, 1]],
+#     [[1, 0, 1], [1, 1]],
+#     [[0, 0, 0], [0, 0]],
+# ]
+# nn.train(train_data)
 
 # print(repr(nn.get_output_layer()))
