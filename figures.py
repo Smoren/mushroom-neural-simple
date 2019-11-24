@@ -44,7 +44,7 @@ def readImgFile(img):
 def getOutput(i):
     result = []
 
-    for j in range(10):
+    for j in range(2):
         result.append(0)
 
     result[i] = 1
@@ -54,8 +54,8 @@ def getOutput(i):
 
 to_learn = []
 
-for digit in range(10):
-    os.chdir('/home/smoren/projects/neuro-simple/numbers/' + str(digit))
+for digit in range(2):
+    os.chdir('/home/smoren/projects/neuro-simple/figures/' + str(digit))
     files = glob.glob("*.xpm")
 
     for img in files:
@@ -67,17 +67,15 @@ for digit in range(10):
 nn = NeuralNetwork()
 nn.add_input_layer(256)
 nn.add_hidden_layer(64)
-nn.add_hidden_layer(64)
-nn.add_hidden_layer(64)
-nn.add_output_layer(10)
+nn.add_output_layer(2)
 
-for i in range(0, 100):
+for i in range(0, 30):
     print('')
     print('EPOCH #{}'.format(i))
     loss_total = nn.train(to_learn, 1)
     print('{:.4f}'.format(loss_total))
 
-os.chdir('/home/smoren/projects/neuro-simple/numbers/test')
+os.chdir('/home/smoren/projects/neuro-simple/figures/test')
 files = glob.glob("*.xpm")
 for img in files:
     arr = readImgFile(img)
