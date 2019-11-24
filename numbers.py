@@ -66,15 +66,12 @@ for digit in range(10):
 
 nn = NeuralNetwork()
 nn.add_input_layer(256)
-nn.add_hidden_layer(192)
-nn.add_hidden_layer(128)
-nn.add_output_layer(96)
-nn.add_output_layer(64)
-nn.add_output_layer(48)
-nn.add_output_layer(32)
+nn.add_hidden_layer(64)
+nn.add_hidden_layer(64)
+nn.add_hidden_layer(64)
 nn.add_output_layer(10)
 
-for i in range(0, 50):
+for i in range(0, 100):
     print('')
     print('EPOCH #{}'.format(i))
     loss_total = nn.train(to_learn, 1)
