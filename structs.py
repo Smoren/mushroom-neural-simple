@@ -231,14 +231,13 @@ class NeuralNetwork:
             self.run(input)
 
             output_layer = self.layers[-1]
-            loss_sum = output_layer.get_loss(ref)
-            output_layer.back_propagation_if_output_layer(ref, speed)
 
-            # print(repr(self))
-            # print(ref)
+            loss_sum = output_layer.get_loss(ref)
+            loss_total += loss_sum
+
             print("item #{}: {:.4f}".format(i, loss_sum))
 
-            loss_total += loss_sum
+            output_layer.back_propagation_if_output_layer(ref, speed)
 
             other_layers = self.layers[:-1][::-1]
             for layer in other_layers:

@@ -71,7 +71,7 @@ nn.add_hidden_layer(64)
 nn.add_hidden_layer(64)
 nn.add_output_layer(10)
 
-for i in range(0, 100):
+for i in range(0, 30):
     print('')
     print('EPOCH #{}'.format(i))
     loss_total = nn.train(to_learn, 1)
