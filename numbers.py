@@ -55,8 +55,8 @@ def getOutput(i):
 to_learn = []
 
 for digit in range(10):
-    os.chdir('/home/smoren/projects/neuro-simple/numbers/' + str(digit))
-    files = glob.glob("*.xpm")
+    # os.chdir('/home/smoren/projects/neuro-simple/numbers/' + str(digit))
+    files = glob.glob("numbers/{}/*.xpm".format(str(digit)))
 
     for img in files:
         arr = readImgFile(img)
@@ -77,8 +77,7 @@ for i in range(0, 100):
     loss_total = nn.train(to_learn, 1)
     print('{:.4f}'.format(loss_total))
 
-os.chdir('/home/smoren/projects/neuro-simple/numbers/test')
-files = glob.glob("*.xpm")
+files = glob.glob("numbers/test/*.xpm")
 for img in files:
     arr = readImgFile(img)
     nn.run(arr)
