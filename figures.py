@@ -65,7 +65,11 @@ for digit in range(2):
 
 nn = NeuralNetwork()
 nn.add_input_layer(256)
+nn.add_hidden_layer(256)
+nn.add_hidden_layer(128)
 nn.add_hidden_layer(64)
+nn.add_hidden_layer(32)
+nn.add_hidden_layer(16)
 nn.add_output_layer(2)
 
 for i in range(0, 30):
