@@ -267,7 +267,7 @@ class Layer:
         :param speed: коэффициент скорости обучения
         :type refs: list[float]
         :type speed: float
-        :rtype: Neuron
+        :rtype: Layer
 
         """
         i = 0
@@ -282,7 +282,7 @@ class Layer:
 
         :param speed: коэффициент скорости обучения
         :type speed: float
-        :rtype: Neuron
+        :rtype: Layer
 
         """
         i = 0
@@ -295,7 +295,7 @@ class Layer:
         """Применяет поправки весов всех входящих связей всех нейронов слоя, вычисленные с помощью 
         метода обратного распространения ошибки
         
-        :rtype: Neuron
+        :rtype: Layer
 
         """
         for neuron in self.neurons:
