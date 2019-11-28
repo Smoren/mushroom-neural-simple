@@ -44,5 +44,6 @@ train_data = [
 ]
 
 # обучаем нейросеть 
-loss_total = nn.train(train_data, 0.1)
+for i in range(30):
+    loss_total = nn.train(train_data, 0.1)
 ```
