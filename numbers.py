@@ -1,5 +1,4 @@
 from glob import glob
-from pprint import pprint
 import tools
 
 from structs import NeuralNetwork
