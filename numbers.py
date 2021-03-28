@@ -9,7 +9,7 @@ from tools import read_img_file, get_output
 sys.setrecursionlimit(500000)
 
 # имя файла для хранения данных обученной нейронной сети
-DATA_FILE_NAME = 'numbers.json'
+DATA_FILE_NAME = 'output/numbers.json'
 
 # начинаем составлять обучающую выборку
 to_learn = []

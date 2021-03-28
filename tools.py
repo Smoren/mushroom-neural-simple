@@ -73,11 +73,11 @@ def get_output(i):
 
 
 def import_json_file(filename):
-    if not os.path.exists('output/' + filename):
+    if not os.path.exists(filename):
         return False
 
     r = ''
-    f = open("output/"+filename)
+    f = open(filename)
 
     for line in f:
         r += line
@@ -89,7 +89,7 @@ def import_json_file(filename):
 
 def export_json_file(filename, data):
     r = json.dumps(data, sort_keys=True, indent=4)
-    f = open("output/"+filename, 'w')
+    f = open(filename, 'w')
 
     f.write(r)
     f.close()

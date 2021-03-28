@@ -1,7 +1,7 @@
 from structs import NeuralNetwork
 import tools
 
-DATA_FILE_NAME = 'simple.json'
+DATA_FILE_NAME = 'output/simple.json'
 
 nn = NeuralNetwork()  # создаем нейронную сеть
 
