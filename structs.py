@@ -122,6 +122,30 @@ class Neuron:
             link.apply_weight_delta()
         return self
 
+    def export(self):
+        """Экспорт связей нейрона
+
+        :rtype list
+        """
+        result = []
+        for link in self.link_output:
+            result.append(link.export())
+
+        return result
+
+    def import_(self, links_data):
+        """Импорт связей нейрона
+
+        :rtype Neuron
+        """
+        for i in range(len(links_data)):
+            link_data = links_data[i]
+            link = self.link_output[i]
+
+            link.import_(link_data)
+
+        return self
+
     @staticmethod
     def get_activation(x):
         """Функция активации — экспоненциальная сигмоида
@@ -302,6 +326,30 @@ class Layer:
             neuron.back_propagation_apply()
         return self
 
+    def export(self):
+        """Экспорт данных нейронов слоя
+
+        :rtype: list
+        """
+        result = []
+        for neuron in self.neurons:
+            result.append(neuron.export())
+
+        return result
+
+    def import_(self, neurons_data):
+        """Импорт данных нейронов слоя
+
+        :rtype Neuron
+        """
+        for i in range(len(neurons_data)):
+            neuron_data = neurons_data[i]
+            neuron = self.neurons[i]
+
+            neuron.import_(neuron_data)
+
+        return self
+
     def __len__(self):
         return len(self.neurons)
 
@@ -426,6 +474,22 @@ class Link:
         self.weight += self.weight_delta
         self.weight_delta = 0
         self.weight_delta_param = 0
+        return self
+
+    def export(self):
+        """Экспорт значения связи
+
+        :rtype: float
+        """
+        return self.weight
+
+    def import_(self, value):
+        """Импорт значения связи
+
+        :rtype: Link
+        """
+        self.weight = value
+
         return self
 
 
@@ -612,6 +676,38 @@ class NeuralNetwork:
 
                     # регистрируем связь, как входную, для нейрона из нового слоя
                     n_to.add_link_input(link)
+
+        return self
+
+    def export(self):
+        """Экспорт данных слоев сети
+
+        :rtype: list
+        """
+        result = []
+        for layer in self.layers:
+            result.append(layer.export())
+
+        return result
+
+    def import_(self, layers_data):
+        """Импорт данных слоев сети
+
+        :rtype Neuron
+        """
+
+        self.add_input_layer(len(layers_data[0]))
+
+        for i in range(1, len(layers_data)-1):
+            self.add_hidden_layer(len(layers_data[i]))
+
+        self.add_output_layer(len(layers_data[-1]))
+
+        for i in range(len(layers_data)):
+            layer_data = layers_data[i]
+            layer = self.layers[i]
+
+            layer.import_(layer_data)
 
         return self
 

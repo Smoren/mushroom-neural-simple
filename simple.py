@@ -1,4 +1,5 @@
 from structs import NeuralNetwork
+import json
 
 nn = NeuralNetwork()  # создаем нейронную сеть
 nn.add_input_layer(3)  # добавляем входной слой
@@ -27,3 +28,5 @@ for i in range(0, 10000):
 
 nn.run([1, 0, 0])  # выставляем на входы сигналы и выполняем прямой проход
 print(repr(nn))
+
+print(json.dumps(nn.export(), sort_keys=True, indent=4))
