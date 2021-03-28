@@ -93,3 +93,9 @@ def export_json_file(filename, data):
 
     f.write(r)
     f.close()
+
+
+def export_file(filename, data):
+    f = open(filename, 'w')
+    f.write(data)
+    f.close()
