@@ -1,5 +1,3 @@
-import json
-
 from structs import NeuralNetwork
 import tools
 
@@ -8,7 +6,7 @@ MOTION_COUNT = 3
 EXAMPLES_COUNT = 5
 FRAMES_COUNT = 20
 FRAME_SIZE = 5
-TRAIN_EPOCH_COUNT = 1000
+TRAIN_EPOCH_COUNT = 400
 
 nn = NeuralNetwork()  # создаем нейронную сеть
 
@@ -56,8 +54,12 @@ else:
 
     tools.export_json_file(DATA_FILE_NAME, nn.export())
 
-    print('EPOCH LOSSES PROGRESS: ')
-    print(epoch_losses)
+    epoch_losses_formatted = []
+    for i in range(len(epoch_losses)):
+        loss = epoch_losses[i]
+        epoch_losses_formatted.append('({};{}) '.format(i, loss))
+
+    tools.export_file('output/fingers_losses.txt', ''.join(epoch_losses_formatted))
 
 for motion in range(MOTION_COUNT):
     data = tools.import_json_file('input/fingers/test/{}.json'.format(motion))
