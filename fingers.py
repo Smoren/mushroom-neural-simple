@@ -3,10 +3,16 @@ import tools
 
 DATA_FILE_NAME = 'output/fingers.json'
 MOTION_COUNT = 3
-EXAMPLES_COUNT = 5
-FRAMES_COUNT = 20
+EXAMPLES_COUNT = 9
+FRAMES_COUNT = 30
 FRAME_SIZE = 5
 TRAIN_EPOCH_COUNT = 400
+
+# MOTION_COUNT = 3
+# EXAMPLES_COUNT = 5
+# FRAMES_COUNT = 20
+# FRAME_SIZE = 5
+# TRAIN_EPOCH_COUNT = 400
 
 nn = NeuralNetwork()  # создаем нейронную сеть
 
