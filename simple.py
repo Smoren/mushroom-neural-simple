@@ -1,15 +1,14 @@
 from structs import NeuralNetwork
-import json
 import tools
 
 DATA_FILE_NAME = 'simple.json'
 
 nn = NeuralNetwork()  # создаем нейронную сеть
 
-import_data = tools.import_json_file(DATA_FILE_NAME)
+import_data = tools.import_json_file(DATA_FILE_NAME)  # получим сохраненные данные связей, если сеть ранее обучали
 
 if import_data:
-    nn.import_(import_data)
+    nn.import_(import_data)  # выполним импорт связей в сеть
 else:
     nn.add_input_layer(3)  # добавляем входной слой
     nn.add_hidden_layer(4)  # добавляем скрытый слой
@@ -40,6 +39,4 @@ else:
 nn.run([1, 0, 0])  # выставляем на входы сигналы и выполняем прямой проход
 
 print()
-print()
-
 print(nn.get_output())
