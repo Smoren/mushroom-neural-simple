@@ -27,7 +27,8 @@ else:
     output_layer_size = MOTION_COUNT
 
     nn.add_input_layer(input_layer_size)  # добавляем входной слой
-    # nn.add_hidden_layer(5)  # добавляем скрытый слой
+    nn.add_hidden_layer(16)  # добавляем скрытый слой
+    nn.add_hidden_layer(16)  # добавляем скрытый слой
     nn.add_output_layer(output_layer_size)  # добавляем выходной слой
 
     # готовим обучающую выборку
