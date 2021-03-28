@@ -59,7 +59,16 @@ else:
     print('EPOCH LOSSES PROGRESS: ')
     print(epoch_losses)
 
-# nn.run([1, 0, 0])  # выставляем на входы сигналы и выполняем прямой проход
+for motion in range(MOTION_COUNT):
+    data = tools.import_json_file('input/fingers/test/{}.json'.format(motion))
+    input = []
 
-# print()
-# print(nn.get_output())
+    for frame in data['input']:
+        for finger_value in frame:
+            input.append(finger_value)
+
+    nn.run(input)  # выставляем на входы сигналы и выполняем прямой проход
+
+    print('MOTION {}'.format(motion))
+    print(nn.get_output())
+    print()
