@@ -1,10 +1,14 @@
 from glob import glob
 import tools
+import sys
 
 from structs import NeuralNetwork
 from tools import read_img_file, get_output
 
+# увеличим лимит рекурсии, чтобы избежать возможных segfault
+sys.setrecursionlimit(500000)
 
+# имя файла для хранения данных обученной нейронной сети
 DATA_FILE_NAME = 'numbers.json'
 
 # начинаем составлять обучающую выборку
@@ -13,7 +17,7 @@ to_learn = []
 # для каждой директории с обучающими выборками (соответствующими распознаваемой цифре)
 for digit in range(10):
     # получаем список путей к файлам изображений в ней
-    files = glob("numbers/{}/*.xpm".format(str(digit)))
+    files = glob("input/numbers/{}/*.xpm".format(str(digit)))
 
     # для каждого пути к файлу
     for img in files:
@@ -46,7 +50,7 @@ else:
     tools.export_json_file(DATA_FILE_NAME, nn.export())
 
 # затем получаем пути к файлам из тестовой выборки
-files = glob("numbers/test/*.xpm")
+files = glob("input/numbers/test/*.xpm")
 
 # для каждого пути к файлу
 for img in files:
