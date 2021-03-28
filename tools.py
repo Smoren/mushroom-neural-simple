@@ -1,4 +1,6 @@
 import io
+import json
+import os.path
 
 
 def make_input_array(img_content):
@@ -68,3 +70,26 @@ def get_output(i):
     result[i] = 1
 
     return result
+
+
+def import_json_file(filename):
+    if not os.path.exists('output/' + filename):
+        return False
+
+    r = ''
+    f = open("output/"+filename)
+
+    for line in f:
+        r += line
+
+    f.close()
+
+    return json.loads(r)
+
+
+def export_json_file(filename, data):
+    r = json.dumps(data, sort_keys=True, indent=4)
+    f = open("output/"+filename, 'w')
+
+    f.write(r)
+    f.close()

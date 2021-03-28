@@ -350,6 +350,19 @@ class Layer:
 
         return self
 
+    def get_output(self):
+        """Возвращает выходные сигналы слоя
+
+        :rtype: dict
+        """
+        r = []
+        i = 0
+        for neuron in self.neurons:
+            r.append({i: neuron.output})
+            i += 1
+
+        return r
+
     def __len__(self):
         return len(self.neurons)
 
@@ -710,6 +723,19 @@ class NeuralNetwork:
             layer.import_(layer_data)
 
         return self
+
+    def get_output(self):
+        """Возвращает выходные сигналы выходного слоя сети
+
+        :rtype: dict
+        """
+        r = []
+        i = 0
+        for neuron in self.layers[-1].neurons:
+            r.append({i: neuron.output})
+            i += 1
+
+        return r
 
     def __repr__(self):
         return "\n".join([repr(x) for x in self.layers])
