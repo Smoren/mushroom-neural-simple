@@ -40,14 +40,24 @@ else:
     nn.add_hidden_layer(64)  # добавляем скрытый слой
     nn.add_output_layer(10)  # добавляем выходной слой
 
+    epoch_losses = []  # сюда накопим историю изменения ошибки с каждой эпохой
+
     # в цикле совершаем заданное количество эпох обучения
     for i in range(0, 30):
         print('')
         print('EPOCH #{}'.format(i))
         loss_total = nn.train(to_learn, 1)
+        epoch_losses.append(loss_total)
         print('TOTAL LOSS: {:.4f}'.format(loss_total))
 
     tools.export_json_file(DATA_FILE_NAME, nn.export())
+
+    epoch_losses_formatted = []
+    for i in range(len(epoch_losses)):
+        loss = epoch_losses[i]
+        epoch_losses_formatted.append('({};{}) '.format(i, loss))
+
+    tools.export_file('output/numbers_losses.txt', ''.join(epoch_losses_formatted))
 
 # затем получаем пути к файлам из тестовой выборки
 files = glob("input/numbers/test/*.xpm")
