@@ -37,7 +37,6 @@ else:
     nn.add_input_layer(256)  # добавляем входной слой
     nn.add_hidden_layer(64)  # добавляем скрытый слой
     nn.add_hidden_layer(64)  # добавляем скрытый слой
-    nn.add_hidden_layer(64)  # добавляем скрытый слой
     nn.add_output_layer(10)  # добавляем выходной слой
 
     epoch_losses = []  # сюда накопим историю изменения ошибки с каждой эпохой
