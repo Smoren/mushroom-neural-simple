@@ -99,3 +99,15 @@ def export_file(filename, data):
     f = open(filename, 'w')
     f.write(data)
     f.close()
+
+
+class Profiler:
+    def __init__(self, name):
+        self.name = name
+        self.start = time.time()
+
+    def spent(self):
+        return time.time()-self.start
+
+    def log(self):
+        print("{}: {} s".format(self.name, self.spent()))
