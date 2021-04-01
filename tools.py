@@ -1,6 +1,7 @@
 import io
 import json
 import os.path
+import time
 
 
 def make_input_array(img_content):
