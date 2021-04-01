@@ -54,3 +54,21 @@ else:
         epoch_losses_formatted.append('({};{}) '.format(i, loss))
 
     tools.export_file('output/digits_losses.txt', ''.join(epoch_losses_formatted))
+
+
+# затем получаем пути к файлам из тестовой выборки
+files = glob("input/digits/test/*.json")
+
+# для каждого пути к файлу
+for img in files:
+    # читаем все пиксели файла в массив
+    arr = tools.import_json_file(img)
+
+    # подаем данные на сеть и считаем результат
+    nn.run(arr)
+
+    # выводим результат
+    print()
+    print(img)
+    print(nn.get_output())
+
