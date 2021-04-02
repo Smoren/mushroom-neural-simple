@@ -36,6 +36,10 @@ else:
             # добавляем набор входов (пикселей) и эталон в обучающую выборку
             to_learn.append([arr, tools.get_output(digit)])
 
+    to_learn.append([[0 for i in range(135)], [0 for i in range(10)]])
+    to_learn.append([[1 for i in range(135)], [0 for i in range(10)]])
+    to_learn.append([[0.5 for i in range(135)], [0 for i in range(10)]])
+
     epoch_losses = []  # сюда накопим историю изменения ошибки с каждой эпохой
 
     # в цикле совершаем заданное количество эпох обучения
@@ -72,3 +76,17 @@ for img in files:
     print(img)
     print(nn.get_output())
 
+nn.run([0 for i in range(135)])
+print()
+print('ALL 0')
+print(nn.get_output())
+
+nn.run([1 for i in range(135)])
+print()
+print('ALL 1')
+print(nn.get_output())
+
+nn.run([0.5 for i in range(135)])
+print()
+print('ALL 0.5')
+print(nn.get_output())
