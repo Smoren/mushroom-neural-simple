@@ -30,6 +30,18 @@ def random_input_generator():
         yield extend_with_amplitudes([random.random() for x in range(FRAME_SIZE*FRAMES_COUNT)])
 
 
+def random_resting_state_generator():
+    while True:
+        buf = [random.random() for x in range(FRAME_SIZE)]
+        res = []
+
+        for i in range(FRAMES_COUNT):
+            for x in buf:
+                res.append(x)
+
+        yield extend_with_amplitudes(res)
+
+
 def random_output_generator():
     while True:
         yield [0.5 for x in range(MOTION_COUNT)]
@@ -71,6 +83,7 @@ else:
 
     for i in range(10):
         train_data.append([random_input_generator(), random_output_generator()])
+        train_data.append([random_resting_state_generator(), random_output_generator()])
 
     epoch_losses = []
 
@@ -108,6 +121,12 @@ for motion in range(MOTION_COUNT):
 
 nn.run(random_input_generator())
 print('MOTION RANDOM')
+print('answer: {} | noise: {}'.format(nn.get_best_index(), round(nn.get_noise(), 4)))
+print(nn.get_output())
+print()
+
+nn.run(random_resting_state_generator())
+print('MOTION RANDOM RESTING STATE')
 print('answer: {} | noise: {}'.format(nn.get_best_index(), round(nn.get_noise(), 4)))
 print(nn.get_output())
 print()
