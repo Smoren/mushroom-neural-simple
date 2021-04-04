@@ -102,10 +102,12 @@ for motion in range(MOTION_COUNT):
     nn.run(extend_with_amplitudes(input))  # выставляем на входы сигналы и выполняем прямой проход
 
     print('MOTION {}'.format(motion))
+    print('answer: {} | noise: {}'.format(nn.get_best_index(), round(nn.get_noise(), 4)))
     print(nn.get_output())
     print()
 
 nn.run(random_input_generator())
 print('MOTION RANDOM')
+print('answer: {} | noise: {}'.format(nn.get_best_index(), round(nn.get_noise(), 4)))
 print(nn.get_output())
 print()
