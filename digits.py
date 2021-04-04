@@ -74,19 +74,23 @@ for img in files:
     # выводим результат
     print()
     print(img)
+    print('answer: {} | noise: {}'.format(nn.get_best_index(), round(nn.get_noise(), 4)))
     print(nn.get_output())
 
 nn.run([0 for i in range(135)])
 print()
 print('ALL 0')
+print('answer: {} | noise: {}'.format(nn.get_best_index(), round(nn.get_noise(), 4)))
 print(nn.get_output())
 
 nn.run([1 for i in range(135)])
 print()
 print('ALL 1')
+print('answer: {} | noise: {}'.format(nn.get_best_index(), round(nn.get_noise(), 4)))
 print(nn.get_output())
 
 nn.run([0.5 for i in range(135)])
 print()
 print('ALL 0.5')
+print('answer: {} | noise: {}'.format(nn.get_best_index(), round(nn.get_noise(), 4)))
 print(nn.get_output())
