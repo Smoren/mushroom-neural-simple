@@ -112,3 +112,14 @@ class Profiler:
 
     def log(self):
         print("{}: {} s".format(self.name, self.spent()))
+
+
+def get_amplitude(input):
+    min_value = float('inf')
+    max_value = float('-inf')
+
+    for x in input:
+        max_value = x if x > max_value else max_value
+        min_value = x if x < min_value else min_value
+
+    return max_value-min_value

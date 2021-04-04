@@ -1,6 +1,7 @@
 # coding=utf-8
 import math
 import random
+import types
 
 
 class Neuron:
@@ -563,7 +564,7 @@ class NeuralNetwork:
         """Выполняет прямой проход сигналов через нейронную сеть
 
         :param input: набор значений на входы всех нейронов входного слоя сети
-        :type input: list[float]
+        :type input: list[float]|GeneratorType
         :rtype: NeuralNetwork
 
         """
@@ -572,9 +573,13 @@ class NeuralNetwork:
         if len(self.layers) == 0:
             raise Exception('empty network')
 
+        # если имеем дело с генератором для входных данных
+        if isinstance(input, types.GeneratorType):
+            input = next(input)
+
         # проверяем, что набор входных данных имеет тот же размер, что и входной слой сети
         if len(input) != len(self.layers[0]):
-            raise Exception('bad input')
+            raise Exception('bad input ({} signals required, {} given)'.format(len(self.layers[0]), len(input)))
 
         # устанавливаем сигналы на вход сети
         self.layers[0].reset(input)
@@ -618,6 +623,14 @@ class NeuralNetwork:
 
         # для каждого примера из обучающей выборки
         for input, refs in data:
+            # если имеем дело с генератором для входных данных
+            if isinstance(input, types.GeneratorType):
+                input = next(input)
+
+            # если имеем дело с генератором для эталонных данных
+            if isinstance(refs, types.GeneratorType):
+                refs = next(refs)
+
             # выполняем прямой проход сигналов по сети при заданном наборе входных сигналов
             self.run(input)
 
