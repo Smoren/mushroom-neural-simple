@@ -72,5 +72,6 @@ for img in files:
     # выводим результат
     print()
     print(img)
+    print('answer: {} | noise: {}'.format(nn.get_best_index(), round(nn.get_noise(), 4)))
     print(nn.get_output())
 

@@ -667,6 +667,44 @@ class NeuralNetwork:
         # возвращаем суммарную потерю по обучающей выборке
         return loss_total
 
+    def get_best_index(self):
+        """Возвращает индекс нейрона выходного слоя с наибольшим значением на выходе
+
+        :rtype: int
+
+        """
+        output = self.get_output()
+
+        best_index = -1
+        best_value = float('-inf')
+
+        for i in range(len(output)):
+            val = output[i]
+            if val > best_value:
+                best_index = i
+                best_value = val
+
+        return best_index
+
+    def get_noise(self):
+        """Возвращает уровень шума ответа сети
+
+        :rtype: int
+
+        """
+        output = self.get_output()
+        best_index = self.get_best_index()
+        noise = 0
+
+        for i in range(len(output)):
+            val = output[i]
+            if i == best_index:
+                noise += 1-val
+            else:
+                noise += val
+
+        return noise/len(output)
+
     def _add_layer(self, neuron_class, size):
         """Добавление слоя нейронов заданного класса в нейронную сеть
 
@@ -742,13 +780,7 @@ class NeuralNetwork:
 
         :rtype: dict
         """
-        r = []
-        i = 0
-        for neuron in self.layers[-1].neurons:
-            r.append({i: neuron.output})
-            i += 1
-
-        return r
+        return [neuron.output for neuron in self.layers[-1].neurons]
 
     def __repr__(self):
         return "\n".join([repr(x) for x in self.layers])
