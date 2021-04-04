@@ -36,9 +36,9 @@ else:
             # добавляем набор входов (пикселей) и эталон в обучающую выборку
             to_learn.append([arr, tools.get_output(digit)])
 
-    to_learn.append([[0 for i in range(135)], [0 for i in range(10)]])
-    to_learn.append([[1 for i in range(135)], [0 for i in range(10)]])
-    to_learn.append([[0.5 for i in range(135)], [0 for i in range(10)]])
+    to_learn.append([[0 for i in range(135)], [0.5 for i in range(10)]])
+    to_learn.append([[1 for i in range(135)], [0.5 for i in range(10)]])
+    to_learn.append([[0.5 for i in range(135)], [0.5 for i in range(10)]])
 
     epoch_losses = []  # сюда накопим историю изменения ошибки с каждой эпохой
 
