@@ -6,10 +6,56 @@ import tools
 DATA_FILE_NAME = 'output/digits.json'
 INPUT_LAYER_SIZE = 135
 OUTPUT_LAYER_SIZE = 10
+SX = 9
+SY = 15
 
 nn = NeuralNetwork()  # создаем нейронную сеть
 
 import_data = tools.import_json_file(DATA_FILE_NAME)  # получим сохраненные данные связей, если сеть ранее обучали
+
+
+def print_signals(signals):
+    print('------------')
+    for y in range(SY):
+        res = ''
+        for x in range(SX):
+            pos = y*SX + x
+            res += ' ' if signals[pos] < 0.3 else '*'
+        print(res)
+    print('------------')
+
+
+def invert_signals(signals):
+    newsignals = []
+
+    for x in signals:
+        newsignals.append(1-x)
+
+    return newsignals
+
+
+def move_signals(signals, dx, dy):
+    newsignals = []
+    for i in range(INPUT_LAYER_SIZE):
+        newsignals.append(0)
+
+    for y in range(SY):
+        for x in range(SX):
+            newy = y+dy
+            newx = x+dx
+            if newy < 0 or newy >= SY or newx < 0 or newx >= SX:
+                continue
+
+            if newy < 0 or newy >= SY or newx < 0 or newx >= SX:
+                continue
+
+            pos = y*SX + x
+            newpos = newy*SX + newx
+
+            newsignals[newpos] = signals[pos]
+
+    return newsignals
+
 
 if import_data:
     nn.import_(import_data)  # выполним импорт связей в сеть
@@ -17,7 +63,7 @@ else:
     dirty_data = []
 
     nn.add_input_layer(INPUT_LAYER_SIZE)  # добавляем входной слой
-    nn.add_hidden_layer(16)  # добавляем скрытый слой
+    nn.add_hidden_layer(32)  # добавляем скрытый слой
     nn.add_output_layer(OUTPUT_LAYER_SIZE)  # добавляем выходной слой
 
     # начинаем составлять обучающую выборку
@@ -35,6 +81,12 @@ else:
 
             # добавляем набор входов (пикселей) и эталон в обучающую выборку
             to_learn.append([arr, tools.get_output(digit)])
+            to_learn.append([invert_signals(arr), tools.get_output(digit)])
+
+            for dx in range(1):
+                for dy in range(-2, 2):
+                    to_learn.append([move_signals(arr, dx, dy), tools.get_output(digit)])
+                    to_learn.append([invert_signals(move_signals(arr, dx, dy)), tools.get_output(digit)])
 
     to_learn.append([[0 for i in range(135)], [0.5 for i in range(10)]])
     to_learn.append([[1 for i in range(135)], [0.5 for i in range(10)]])
@@ -43,7 +95,7 @@ else:
     epoch_losses = []  # сюда накопим историю изменения ошибки с каждой эпохой
 
     # в цикле совершаем заданное количество эпох обучения
-    for i in range(0, 300):
+    for i in range(0, 500):
         print('')
         print('EPOCH #{}'.format(i))
         loss_total = nn.train(to_learn, 1)
