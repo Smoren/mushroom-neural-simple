@@ -34,6 +34,16 @@ class ActivationRelu(ActivationBase):
         return 0 if x < 0 else 1
 
 
+class ActivationElu(ActivationBase):
+    @classmethod
+    def calc(cls, x, alpha=1):
+        return x if x >= 0 else alpha*math.exp(x) - 1
+
+    @classmethod
+    def derivative(cls, x, alpha=1):
+        return 1 if x >= 0 else cls.calc(x, alpha)+alpha
+
+
 class ActivationSigmoid(ActivationBase):
     @classmethod
     def calc(cls, x):
@@ -52,3 +62,43 @@ class ActivationGauss(ActivationBase):
     @classmethod
     def derivative(cls, x):
         return -2*x*math.exp(-x**2)
+
+
+class ActivationSinc(ActivationBase):
+    @classmethod
+    def calc(cls, x):
+        return 1 if x == 0 else math.sin(x)/x
+
+    @classmethod
+    def derivative(cls, x):
+        return 0 if x == 0 else math.cos(x)/x - math.sin(x)/(x**2)
+
+
+class ActivationSoftPlus(ActivationBase):
+    @classmethod
+    def calc(cls, x):
+        return math.log(1+math.exp(x))
+
+    @classmethod
+    def derivative(cls, x):
+        return 1/(1+math.exp(-x))
+
+
+class ActivationSoftSign(ActivationBase):
+    @classmethod
+    def calc(cls, x):
+        return x/(1+abs(x))
+
+    @classmethod
+    def derivative(cls, x):
+        return 1/((1+abs(x))**2)
+
+
+class ActivationSoftSignSquare(ActivationBase):
+    @classmethod
+    def calc(cls, x):
+        return x/(1+abs(x**2))
+
+    @classmethod
+    def derivative(cls, x):
+        return (1 - x**2)/((1 + x**2)**2)
