@@ -42,3 +42,13 @@ class ActivationSigmoid(ActivationBase):
     @classmethod
     def derivative(cls, x):
         return cls.calc(x) * (1 - cls.calc(x))
+
+
+class ActivationGauss(ActivationBase):
+    @classmethod
+    def calc(cls, x):
+        return math.exp(-x**2)
+
+    @classmethod
+    def derivative(cls, x):
+        return -2*x*math.exp(-x**2)
