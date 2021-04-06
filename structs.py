@@ -2,6 +2,7 @@
 import math
 import random
 import types
+from pprint import pprint
 
 
 class Neuron:
@@ -231,7 +232,7 @@ class Layer:
     def reset(self, input=None):
         """Для всех нейронов с слое сбрасывает значение накопителя входного сигнала в 0, 
         либо устанавливает его значение в input
-        
+
         :param input: набор значений, которые будут записаны в накопители входного сигнала для каждого нейрона
         :type input: list[float]|None
         :rtype: Layer
@@ -243,6 +244,18 @@ class Layer:
         else:
             for i in range(0, len(self.neurons)):
                 self.neurons[i].reset(input[i])
+        return self
+
+    def add(self, input):
+        """Для всех нейронов во входном слое добавляет значения ко входам
+
+        :param input: набор значений, которые будут добавлены в накопители входного сигнала для каждого нейрона
+        :type input: list[float]
+        :rtype: Layer
+
+        """
+        for i in range(0, len(self.neurons)):
+            self.neurons[i].add(input[i])
         return self
 
     def calc(self):
@@ -560,11 +573,22 @@ class NeuralNetwork:
         """
         return self.layers[-1]
 
-    def run(self, input):
+    def reset(self):
+        """Очищает входы всех нейронов сети
+
+        :rtype: NeuralNetwork
+        """
+        for layer in self.layers:
+            layer.reset()
+        return self
+
+    def run(self, input, accumulate=False):
         """Выполняет прямой проход сигналов через нейронную сеть
 
         :param input: набор значений на входы всех нейронов входного слоя сети
+        :param accumulate: накапливать входные сигналы
         :type input: list[float]|GeneratorType
+        :type accumulate: bool
         :rtype: NeuralNetwork
 
         """
@@ -581,8 +605,12 @@ class NeuralNetwork:
         if len(input) != len(self.layers[0]):
             raise Exception('bad input ({} signals required, {} given)'.format(len(self.layers[0]), len(input)))
 
-        # устанавливаем сигналы на вход сети
-        self.layers[0].reset(input)
+        if accumulate:
+            # устанавливаем сигналы на вход сети
+            self.layers[0].reset(input)
+        else:
+            # накапливаем сигналы на входе сети
+            self.layers[0].add(input)
 
         # для каждой пары соседних слоев сети
         for i in range(0, len(self.layers) - 1):
@@ -592,8 +620,9 @@ class NeuralNetwork:
             # следующий слой
             next_layer = self.layers[i + 1]
 
-            # сбрасываем значения на входе следующего слоя
-            next_layer.reset()
+            if not accumulate:
+                # сбрасываем значения на входе следующего слоя
+                next_layer.reset()
 
             # выполняем расчет выходных значений на текущем слое
             curr_layer.calc()
@@ -606,7 +635,7 @@ class NeuralNetwork:
 
         return self
 
-    def train(self, data, speed):
+    def train(self, data, speed, verbose=True, accumulate=False):
         """Выполняет обучение сети методом обратного распространения ошибки на основе данных обучающей выборки
 
         :param data: данные обучающей выборки; имеет формат [[[входы...], [эталоны...]], ...]
@@ -632,7 +661,7 @@ class NeuralNetwork:
                 refs = next(refs)
 
             # выполняем прямой проход сигналов по сети при заданном наборе входных сигналов
-            self.run(input)
+            self.run(input, accumulate)
 
             # берем выходной слой сети
             output_layer = self.layers[-1]
@@ -644,7 +673,8 @@ class NeuralNetwork:
             loss_total += loss_sum
 
             # выводим данные о потере на текущем примере обучающей выборки
-            print("item #{} loss: {:.4f}".format(i, loss_sum))
+            if verbose:
+                print("item #{} loss: {:.4f}".format(i, loss_sum))
 
             # считаем поправки весов для входящих связей выходного слоя по методу обратного распространения ошибки
             output_layer.back_propagation_if_output_layer(refs, speed)
@@ -667,6 +697,41 @@ class NeuralNetwork:
         # возвращаем суммарную потерю по обучающей выборке
         return loss_total
 
+    def train_accumulate(self, data, speed, verbose=True):
+        cnt = 0
+        loss_sum = 0
+
+        for input, refs in data:
+            self.reset()
+            i = 0
+
+            frames = input[:-1]
+            last_frame = input[-1]
+
+            for frame in frames:
+                self.run(frame, True)
+
+            loss_sum += self.train([[last_frame, refs]], speed, False, True)
+
+            # frames_data = []
+            #
+            # for frame in input:
+            #     frame_refs = []
+            #     for x in refs:
+            #         frame_refs.append(x * (i / (len(input) - 1)))
+            #
+            #     frames_data.append([frame, frame_refs])
+            #     i += 1
+            #
+            # loss_sum += self.train(frames_data, speed, False, True)
+
+            if verbose:
+                print("accumulate item #{} loss: {:.4f}".format(cnt, loss_sum))
+
+            cnt += 1
+
+        return loss_sum
+                
     def get_best_index(self):
         """Возвращает индекс нейрона выходного слоя с наибольшим значением на выходе
 
