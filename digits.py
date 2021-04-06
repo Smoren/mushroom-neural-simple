@@ -1,5 +1,7 @@
 from pprint import pprint
 from glob import glob
+
+import activation
 from structs import NeuralNetwork
 import tools
 
@@ -8,6 +10,11 @@ INPUT_LAYER_SIZE = 135
 OUTPUT_LAYER_SIZE = 10
 
 nn = NeuralNetwork()  # создаем нейронную сеть
+nn.add_input_layer(INPUT_LAYER_SIZE)  # добавляем входной слой
+nn.add_layer(80, random_radius=0.01, activation_class=activation.ActivationRelu)  # добавляем скрытый слой
+nn.add_layer(40, random_radius=2, activation_class=activation.ActivationSigmoid)  # добавляем скрытый слой
+nn.add_layer(20, random_radius=2, activation_class=activation.ActivationSigmoid)  # добавляем скрытый слой
+nn.add_layer(OUTPUT_LAYER_SIZE)  # добавляем выходной слой
 
 import_data = tools.import_json_file(DATA_FILE_NAME)  # получим сохраненные данные связей, если сеть ранее обучали
 
@@ -15,10 +22,6 @@ if import_data:
     nn.import_(import_data)  # выполним импорт связей в сеть
 else:
     dirty_data = []
-
-    nn.add_input_layer(INPUT_LAYER_SIZE)  # добавляем входной слой
-    nn.add_hidden_layer(16)  # добавляем скрытый слой
-    nn.add_output_layer(OUTPUT_LAYER_SIZE)  # добавляем выходной слой
 
     # начинаем составлять обучающую выборку
     to_learn = []
@@ -46,7 +49,7 @@ else:
     for i in range(0, 300):
         print('')
         print('EPOCH #{}'.format(i))
-        loss_total = nn.train(to_learn, 1)
+        loss_total = nn.train(to_learn, 1, False)
         epoch_losses.append(loss_total)
         print('TOTAL LOSS: {:.4f}'.format(loss_total))
 
