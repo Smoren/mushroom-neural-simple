@@ -1,4 +1,6 @@
 from glob import glob
+
+import activation
 import tools
 import sys
 
@@ -28,24 +30,23 @@ for digit in range(10):
         to_learn.append([arr, get_output(digit)])
 
 nn = NeuralNetwork()  # создаем нейронную сеть
+nn.add_input_layer(256)  # добавляем входной слой
+nn.add_layer(32, activation_class=activation.ActivationRelu, random_radius=0.5)  # добавляем скрытый слой
+nn.add_layer(32, activation_class=activation.ActivationSigmoid, random_radius=0.5)  # добавляем скрытый слой
+nn.add_layer(10, activation_class=activation.ActivationSigmoid, random_radius=0.5)  # добавляем выходной слой
 
 import_data = tools.import_json_file(DATA_FILE_NAME)  # получим сохраненные данные связей, если сеть ранее обучали
 
 if import_data:
     nn.import_(import_data)  # выстроим заранее обученную сеть из данных импорта
 else:
-    nn.add_input_layer(256)  # добавляем входной слой
-    nn.add_hidden_layer(64)  # добавляем скрытый слой
-    nn.add_hidden_layer(64)  # добавляем скрытый слой
-    nn.add_output_layer(10)  # добавляем выходной слой
-
     epoch_losses = []  # сюда накопим историю изменения ошибки с каждой эпохой
 
     # в цикле совершаем заданное количество эпох обучения
     for i in range(0, 30):
         print('')
         print('EPOCH #{}'.format(i))
-        loss_total = nn.train(to_learn, 1)
+        loss_total = nn.train(to_learn, 1, False)
         epoch_losses.append(loss_total)
         print('TOTAL LOSS: {:.4f}'.format(loss_total))
 

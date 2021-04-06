@@ -3,6 +3,8 @@ import math
 import random
 import types
 
+import activation
+
 
 class Neuron:
     """Класс нейрона
@@ -10,6 +12,7 @@ class Neuron:
 
     Attributes
     ----------
+    activation_class (ActivationBase): класс функции активации
     input (float): накопитель входного сигнала
     output (float): значение выхода нейрона
     link_input (list[Link]): массив входящих связей
@@ -17,7 +20,8 @@ class Neuron:
 
     """
 
-    def __init__(self):
+    def __init__(self, activation_class):
+        self.activation_class = activation_class
         self.input = 0
         self.output = 0
         self.link_input = []
@@ -147,8 +151,7 @@ class Neuron:
 
         return self
 
-    @staticmethod
-    def get_activation(x):
+    def get_activation(self, x):
         """Функция активации — экспоненциальная сигмоида
 
         :param x: аргумент функции
@@ -156,10 +159,9 @@ class Neuron:
         :rtype float
 
         """
-        return 1 / (math.exp(-x) + 1)
+        return self.activation_class.calc(x)
 
-    @classmethod
-    def get_activation_derivative(cls, x):
+    def get_activation_derivative(self, x):
         """Производная функции активации
 
         :param x: аргумент функции
@@ -167,7 +169,7 @@ class Neuron:
         :rtype float
 
         """
-        return cls.get_activation(x) * (1 - cls.get_activation(x))
+        return self.activation_class.derivative(x)
 
     @staticmethod
     def get_loss(output, ref):
@@ -200,7 +202,7 @@ class TransparentNeuron(Neuron):
     def activation(self):
         """Прозрачная функция активации
         Записывает значение на входе в выход нейрона
-        
+
         :rtype TransparentNeuron
 
         """
@@ -218,15 +220,17 @@ class Layer:
 
     :param neuron_class: класс, нейроны которого будут использоваться в слое
     :param size: количество нейронов в слое
-    :type neuron_class: type
+    :param activation_class: класс функции активации
+    :type neuron_class: type[Neuron]
+    :type activation_class: type[activation.ActivationBase]
     :type size: int
     
     """
-    def __init__(self, neuron_class, size):
+    def __init__(self, neuron_class, size, activation_class):
         self.neurons = []
 
         for i in range(0, size):
-            self.neurons.append(neuron_class())
+            self.neurons.append(neuron_class(activation_class))
 
     def reset(self, input=None):
         """Для всех нейронов с слое сбрасывает значение накопителя входного сигнала в 0, 
@@ -527,29 +531,22 @@ class NeuralNetwork:
         :rtype: NeuralNetwork
 
         """
-        self._add_layer(TransparentNeuron, size)
+        self._add_layer(TransparentNeuron, size, activation.ActivationTransparent, 0)
         return self
 
-    def add_hidden_layer(self, size):
-        """Добавляет в сеть скрытый слой размером в size нейронов
+    def add_layer(self, size, activation_class=activation.ActivationSigmoid, random_radius=0.5):
+        """Добавляет в сеть слой
 
         :param size: количество нейронов в слое
+        :param activation_class: класс функции активации
+        :param random_radius: радиус разброса случайных значений весов
         :type size: int
+        :type activation_class: type[activation.ActivationBase]
+        :type random_radius: float
         :rtype: NeuralNetwork
 
         """
-        self._add_layer(Neuron, size)
-        return self
-
-    def add_output_layer(self, size):
-        """Добавляет в сеть выходной слой размером в size нейронов
-
-        :param size: количество нейронов в слое
-        :type size: int
-        :rtype: NeuralNetwork
-
-        """
-        self._add_layer(Neuron, size)
+        self._add_layer(Neuron, size, activation_class, random_radius)
         return self
 
     def get_output_layer(self):
@@ -606,13 +603,15 @@ class NeuralNetwork:
 
         return self
 
-    def train(self, data, speed):
+    def train(self, data, speed, verbose=True):
         """Выполняет обучение сети методом обратного распространения ошибки на основе данных обучающей выборки
 
         :param data: данные обучающей выборки; имеет формат [[[входы...], [эталоны...]], ...]
         :param speed: коэффициент скорости обучения
+        :param verbose: выводить сообщения о прогрессе обучения
         :type data: list
         :type speed: float
+        :type verbose: bool
         :return: суммарная потеря по обучающей выборке
         :rtype: float
 
@@ -643,8 +642,9 @@ class NeuralNetwork:
             # накапливаем суммарную потерю
             loss_total += loss_sum
 
-            # выводим данные о потере на текущем примере обучающей выборки
-            print("item #{} loss: {:.4f}".format(i, loss_sum))
+            if verbose:
+                # выводим данные о потере на текущем примере обучающей выборки
+                print("item #{} loss: {:.4f}".format(i, loss_sum))
 
             # считаем поправки весов для входящих связей выходного слоя по методу обратного распространения ошибки
             output_layer.back_propagation_if_output_layer(refs, speed)
@@ -705,19 +705,23 @@ class NeuralNetwork:
 
         return noise/len(output)
 
-    def _add_layer(self, neuron_class, size):
+    def _add_layer(self, neuron_class, size, activation_class, random_radius):
         """Добавление слоя нейронов заданного класса в нейронную сеть
 
         :param neuron_class: класс нейронов, которые будут использоваться в слое
         :param size: количество нейронов в слое
-        :type neuron_class: type
+        :param activation_class: класс функции активации
+        :param random_radius: радиус разброса случайных значений весов
+        :type neuron_class: type[Neuron]
         :type size: int
+        :type activation_class: type[activation.ActivationBase]
+        :type random_radius: float
         :rtype: NeuralNetwork
 
         """
 
         # создаем слой
-        layer = Layer(neuron_class, size)
+        layer = Layer(neuron_class, size, activation_class)
 
         # добавляем в список слоев нейронной сети
         self.layers.append(layer)
@@ -733,7 +737,7 @@ class NeuralNetwork:
                 # для всех нейронов нового слоя
                 for n_to in layer.neurons:
                     # создаем связь с рандомным весом в отрезке [-0.5, 0.5]
-                    link = Link(n_from, n_to, random.uniform(-0.5, 0.5))
+                    link = Link(n_from, n_to, random.uniform(-random_radius, random_radius))
 
                     # регистрируем связь, как выходную, для нейрона из предыдущего слоя
                     n_from.add_link_output(link)
@@ -760,12 +764,13 @@ class NeuralNetwork:
         :rtype Neuron
         """
 
-        self.add_input_layer(len(layers_data[0]))
+        if not len(self.layers):
+            self.add_input_layer(len(layers_data[0]))
 
-        for i in range(1, len(layers_data)-1):
-            self.add_hidden_layer(len(layers_data[i]))
+            for i in range(1, len(layers_data)-1):
+                self.add_layer(len(layers_data[i]))
 
-        self.add_output_layer(len(layers_data[-1]))
+            self.add_layer(len(layers_data[-1]))
 
         for i in range(len(layers_data)):
             layer_data = layers_data[i]

@@ -18,13 +18,15 @@ python3 numbers.py
 Создание нейронной сети:
 ```python
 from structs import NeuralNetwork
-
+import activation
 
 nn = NeuralNetwork()  # создаем нейронную сеть
 nn.add_input_layer(3)  # добавляем входной слой
-nn.add_hidden_layer(4)  # добавляем скрытый слой
-nn.add_hidden_layer(5)  # добавляем скрытый слой
-nn.add_output_layer(2)  # добавляем выходной слой
+nn.add_layer(4)  # добавляем скрытый слой
+nn.add_layer(5, 
+             activation_class=activation.ActivationSigmoid, 
+             random_radius=2)  # добавляем скрытый слой с явно задаными параметрами
+nn.add_layer(2)  # добавляем выходной слой
 ```
 
 Установка входных сигналов и выполнение прямого прохода:
@@ -46,4 +48,10 @@ train_data = [
 # обучаем нейросеть 
 for i in range(30):
     loss_total = nn.train(train_data, 0.1)
+
+# выполняем прогон на тестовом примере
+nn.run([1, 1, 0])
+
+# получаем данные на выходе сети
+print(nn.get_output())
 ```
