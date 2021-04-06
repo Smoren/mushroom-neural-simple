@@ -10,6 +10,10 @@ SX = 9
 SY = 15
 
 nn = NeuralNetwork()  # создаем нейронную сеть
+nn.add_input_layer(INPUT_LAYER_SIZE)  # добавляем входной слой
+nn.add_layer(36)  # добавляем скрытый слой
+nn.add_layer(9)  # добавляем скрытый слой
+nn.add_layer(OUTPUT_LAYER_SIZE)  # добавляем выходной слой
 
 import_data = tools.import_json_file(DATA_FILE_NAME)  # получим сохраненные данные связей, если сеть ранее обучали
 
@@ -62,11 +66,6 @@ if import_data:
 else:
     dirty_data = []
 
-    nn.add_input_layer(INPUT_LAYER_SIZE)  # добавляем входной слой
-    nn.add_hidden_layer(36)  # добавляем скрытый слой
-    nn.add_hidden_layer(9)  # добавляем скрытый слой
-    nn.add_output_layer(OUTPUT_LAYER_SIZE)  # добавляем выходной слой
-
     # начинаем составлять обучающую выборку
     to_learn = []
 
@@ -99,7 +98,7 @@ else:
     for i in range(0, 1600):
         print('')
         print('EPOCH #{}'.format(i))
-        loss_total = nn.train(to_learn, 0.5)
+        loss_total = nn.train(to_learn, 0.5, False)
         epoch_losses.append(loss_total)
         print('TOTAL LOSS: {:.4f}'.format(loss_total))
 
