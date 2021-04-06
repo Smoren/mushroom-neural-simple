@@ -63,7 +63,8 @@ else:
     dirty_data = []
 
     nn.add_input_layer(INPUT_LAYER_SIZE)  # добавляем входной слой
-    nn.add_hidden_layer(32)  # добавляем скрытый слой
+    nn.add_hidden_layer(36)  # добавляем скрытый слой
+    nn.add_hidden_layer(9)  # добавляем скрытый слой
     nn.add_output_layer(OUTPUT_LAYER_SIZE)  # добавляем выходной слой
 
     # начинаем составлять обучающую выборку
@@ -84,7 +85,7 @@ else:
             to_learn.append([invert_signals(arr), tools.get_output(digit)])
 
             for dx in range(1):
-                for dy in range(-2, 2):
+                for dy in range(0, 2):
                     to_learn.append([move_signals(arr, dx, dy), tools.get_output(digit)])
                     to_learn.append([invert_signals(move_signals(arr, dx, dy)), tools.get_output(digit)])
 
@@ -95,10 +96,10 @@ else:
     epoch_losses = []  # сюда накопим историю изменения ошибки с каждой эпохой
 
     # в цикле совершаем заданное количество эпох обучения
-    for i in range(0, 500):
+    for i in range(0, 1600):
         print('')
         print('EPOCH #{}'.format(i))
-        loss_total = nn.train(to_learn, 1)
+        loss_total = nn.train(to_learn, 0.5)
         epoch_losses.append(loss_total)
         print('TOTAL LOSS: {:.4f}'.format(loss_total))
 
