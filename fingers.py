@@ -1,5 +1,6 @@
 import random
 
+import activation
 from structs import NeuralNetwork
 import tools
 
@@ -47,7 +48,15 @@ def random_output_generator():
         yield [0.5 for x in range(MOTION_COUNT)]
 
 
+input_layer_size = FRAMES_COUNT * FRAME_SIZE + FRAME_SIZE  # еще добавляются амплитуды
+output_layer_size = MOTION_COUNT
+
 nn = NeuralNetwork()  # создаем нейронную сеть
+nn.add_input_layer(input_layer_size)  # добавляем входной слой
+nn.add_layer(32, random_radius=0.01, activation_class=activation.ActivationRelu)  # добавляем скрытый слой
+nn.add_layer(16, random_radius=2)  # добавляем скрытый слой
+nn.add_layer(16, random_radius=2)  # добавляем скрытый слой
+nn.add_layer(output_layer_size)  # добавляем выходной слой
 
 import_data = tools.import_json_file(DATA_FILE_NAME)  # получим сохраненные данные связей, если сеть ранее обучали
 
@@ -59,14 +68,6 @@ else:
     for motion in range(MOTION_COUNT):
         for example in range(EXAMPLES_COUNT):
             dirty_data.append(tools.import_json_file('input/fingers/{}/{}.json'.format(motion, example)))
-
-    input_layer_size = FRAMES_COUNT * FRAME_SIZE + FRAME_SIZE  # еще добавляются амплитуды
-    output_layer_size = MOTION_COUNT
-
-    nn.add_input_layer(input_layer_size)  # добавляем входной слой
-    nn.add_hidden_layer(16)  # добавляем скрытый слой
-    nn.add_hidden_layer(16)  # добавляем скрытый слой
-    nn.add_output_layer(output_layer_size)  # добавляем выходной слой
 
     # готовим обучающую выборку
     train_data = []
@@ -91,9 +92,9 @@ else:
     for i in range(0, TRAIN_EPOCH_COUNT):
         print('')
         print('EPOCH #{}'.format(i))
-        loss_total = nn.train(train_data, 0.1)
+        loss_total = nn.train(train_data, 0.1, False)
         epoch_losses.append(loss_total)
-        print('{:.4f}'.format(loss_total))
+        print('LOSS: {:.4f}'.format(loss_total))
 
     tools.export_json_file(DATA_FILE_NAME, nn.export())
 
