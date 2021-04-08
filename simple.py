@@ -54,26 +54,16 @@ else:
     tools.export_json_file(DATA_FILE_NAME, nn.export())
 
 nn.run([0, 0, 0, 0])  # выставляем на входы сигналы и выполняем прямой проход
-print(0)
-print(nn.get_output())
-print()
+tools.print_output(0, nn)
 
 nn.run([0, 0, 1, 0])  # выставляем на входы сигналы и выполняем прямой проход
-print(1)
-print(nn.get_output())
-print()
+tools.print_output(1, nn)
 
 nn.run([1, 0, 1, 0])  # выставляем на входы сигналы и выполняем прямой проход
-print(2)
-print(nn.get_output())
-print()
+tools.print_output(2, nn)
 
 nn.run([1, 1, 0, 1])  # выставляем на входы сигналы и выполняем прямой проход
-print(3)
-print(nn.get_output())
-print()
+tools.print_output(3, nn)
 
 nn.run([1, 1, 1, 1])  # выставляем на входы сигналы и выполняем прямой проход
-print(4)
-print(nn.get_output())
-print()
+tools.print_output(4, nn)

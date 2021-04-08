@@ -123,3 +123,15 @@ def get_amplitude(input):
         min_value = x if x < min_value else min_value
 
     return max_value-min_value
+
+
+def format_output(output, precision):
+    return [round(x, precision) for x in output]
+
+
+def print_output(name, nn):
+    print(name)
+    print(format_output(nn.get_output(), 0))
+    print(format_output(nn.get_output(), 4))
+    print("noise: {}".format(round(nn.get_noise(), 4)))
+    print()

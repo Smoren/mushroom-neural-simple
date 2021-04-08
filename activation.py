@@ -34,6 +34,16 @@ class ActivationRelu(ActivationBase):
         return 0 if x < 0 else 1
 
 
+class ActivationLRelu(ActivationBase):
+    @classmethod
+    def calc(cls, x):
+        return x if x >= 0 else 0.01*x
+
+    @classmethod
+    def derivative(cls, x):
+        return 1 if x >= 0 else 0.01
+
+
 class ActivationElu(ActivationBase):
     @classmethod
     def calc(cls, x, alpha=1):
