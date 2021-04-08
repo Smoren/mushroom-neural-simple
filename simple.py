@@ -42,14 +42,14 @@ else:
         print('')
         print('EPOCH #{}'.format(i))
         loss_total = nn.train(train_data, 0.1, False)
-        print('{:.4f}'.format(loss_total))
+        print('LOSS: {:.4f}'.format(loss_total))
 
     # выполняем заданное количество эпох обучения
     for i in range(0, 2000):
         print('')
         print('EPOCH #{}'.format(i))
         loss_total = nn.train(train_data, 0.05, False)
-        print('{:.4f}'.format(loss_total))
+        print('LOSS: {:.4f}'.format(loss_total))
 
     tools.export_json_file(DATA_FILE_NAME, nn.export())
 
