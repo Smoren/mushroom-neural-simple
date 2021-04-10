@@ -609,7 +609,7 @@ class NeuralNetwork:
         :param data: данные обучающей выборки; имеет формат [[[входы...], [эталоны...]], ...]
         :param speed: коэффициент скорости обучения
         :param verbose: выводить сообщения о прогрессе обучения
-        :type data: list
+        :type data: list|GeneratorType
         :type speed: float
         :type verbose: bool
         :return: суммарная потеря по обучающей выборке
