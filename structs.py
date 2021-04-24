@@ -226,11 +226,23 @@ class Layer:
     :type size: int
     
     """
-    def __init__(self, neuron_class, size, activation_class):
+    def __init__(self, neuron_class, size, activation_class, use_bias=False):
         self.neurons = []
 
         for i in range(0, size):
             self.neurons.append(neuron_class(activation_class))
+
+        if use_bias:
+            self.bias = Neuron(activation.ActivationConst)
+            for neuron in self.neurons:
+                # создаем связь с рандомным весом в отрезке [-1, 1]
+                link = Link(self.bias, neuron, random.uniform(-1, 1))
+
+                # регистрируем связь, как выходную, для нейрона смещения
+                self.bias.add_link_output(link)
+
+                # регистрируем связь, как входную, для нейрона слоя
+                neuron.add_link_input(link)
 
     def reset(self, input=None):
         """Для всех нейронов с слое сбрасывает значение накопителя входного сигнала в 0, 
@@ -531,22 +543,24 @@ class NeuralNetwork:
         :rtype: NeuralNetwork
 
         """
-        self._add_layer(TransparentNeuron, size, activation.ActivationTransparent, 0)
+        self._add_layer(TransparentNeuron, size, activation.ActivationTransparent, 0, False)
         return self
 
-    def add_layer(self, size, activation_class=activation.ActivationSigmoid, random_radius=0.5):
+    def add_layer(self, size, activation_class=activation.ActivationSigmoid, random_radius=0.5, use_bias=False):
         """Добавляет в сеть слой
 
         :param size: количество нейронов в слое
         :param activation_class: класс функции активации
         :param random_radius: радиус разброса случайных значений весов
+        :param use_bias: использовать нейроны смещения в слое
         :type size: int
         :type activation_class: type[activation.ActivationBase]
         :type random_radius: float
+        :type use_bias: bool
         :rtype: NeuralNetwork
 
         """
-        self._add_layer(Neuron, size, activation_class, random_radius)
+        self._add_layer(Neuron, size, activation_class, random_radius, use_bias)
         return self
 
     def get_output_layer(self):
@@ -705,23 +719,25 @@ class NeuralNetwork:
 
         return noise/len(output)
 
-    def _add_layer(self, neuron_class, size, activation_class, random_radius):
+    def _add_layer(self, neuron_class, size, activation_class, random_radius, use_bias):
         """Добавление слоя нейронов заданного класса в нейронную сеть
 
         :param neuron_class: класс нейронов, которые будут использоваться в слое
         :param size: количество нейронов в слое
         :param activation_class: класс функции активации
         :param random_radius: радиус разброса случайных значений весов
+        :param use_bias: использовать нейроны смещения в слое
         :type neuron_class: type[Neuron]
         :type size: int
         :type activation_class: type[activation.ActivationBase]
         :type random_radius: float
+        :type use_bias: bool
         :rtype: NeuralNetwork
 
         """
 
         # создаем слой
-        layer = Layer(neuron_class, size, activation_class)
+        layer = Layer(neuron_class, size, activation_class, use_bias)
 
         # добавляем в список слоев нейронной сети
         self.layers.append(layer)

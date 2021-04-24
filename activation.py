@@ -24,6 +24,16 @@ class ActivationTransparent(ActivationBase):
         return 1
 
 
+class ActivationConst(ActivationBase):
+    @classmethod
+    def calc(cls, x):
+        return 1
+
+    @classmethod
+    def derivative(cls, x):
+        return 0
+
+
 class ActivationRelu(ActivationBase):
     @classmethod
     def calc(cls, x):
