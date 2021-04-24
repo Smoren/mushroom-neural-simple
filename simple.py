@@ -8,8 +8,8 @@ nn = NeuralNetwork()  # создаем нейронную сеть
 nn.add_input_layer(4)  # добавляем входной слой
 nn.add_layer(15, activation_class=activation.ActivationRelu, random_radius=0.15)  # добавляем скрытый слой
 nn.add_layer(15, activation_class=activation.ActivationRelu, random_radius=0.15)  # добавляем скрытый слой
-nn.add_layer(3, activation_class=activation.ActivationGauss, random_radius=2)  # добавляем скрытый слой
-nn.add_layer(10, activation_class=activation.ActivationSigmoid, random_radius=2)  # добавляем скрытый слой
+nn.add_layer(3, activation_class=activation.ActivationGauss, random_radius=2, use_bias=True)  # добавляем скрытый слой
+nn.add_layer(10, activation_class=activation.ActivationSigmoid, random_radius=2, use_bias=True)  # добавляем скрытый слой
 nn.add_layer(3, activation_class=activation.ActivationSigmoid, random_radius=2)  # добавляем выходной слой
 
 import_data = tools.import_json_file(DATA_FILE_NAME)  # получим сохраненные данные связей, если сеть ранее обучали

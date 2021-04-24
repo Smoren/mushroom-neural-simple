@@ -210,6 +210,30 @@ class TransparentNeuron(Neuron):
         return self
 
 
+class BiasNeuron(Neuron):
+    """Класс нейрона смещения
+
+    Attributes
+    ----------
+    input (float): накопитель входного сигнала
+    output (float): значение выхода нейрона
+    link_output (list): массив исходящих связей
+
+    """
+    def __init__(self, activation_class):
+        """
+        Сразу назначаем сигнал на выходе
+        """
+        super().__init__(activation_class)
+        self.output = 1
+
+    def reset(self, input=None):
+        """
+        Игнорируем сброс нейрона смещения
+        """
+        return self
+
+
 class Layer:
     """Класс слоя нейронной сети
     Представляет из себя обертку над массивом входящих в слой нейронов
@@ -221,19 +245,24 @@ class Layer:
     :param neuron_class: класс, нейроны которого будут использоваться в слое
     :param size: количество нейронов в слое
     :param activation_class: класс функции активации
+    :param bias: нейрон смещения
     :type neuron_class: type[Neuron]
-    :type activation_class: type[activation.ActivationBase]
     :type size: int
-    
+    :type activation_class: type[activation.ActivationBase]
+    :type bias: Neuron|None
+
     """
     def __init__(self, neuron_class, size, activation_class, use_bias=False):
         self.neurons = []
+        self.bias = None
 
         for i in range(0, size):
             self.neurons.append(neuron_class(activation_class))
 
         if use_bias:
-            self.bias = Neuron(activation.ActivationConst)
+            self.bias = BiasNeuron(activation.ActivationTransparent)
+            self.bias.input = 1
+
             for neuron in self.neurons:
                 # создаем связь с рандомным весом в отрезке [-1, 1]
                 link = Link(self.bias, neuron, random.uniform(-1, 1))
@@ -268,6 +297,9 @@ class Layer:
         :rtype Layer
 
         """
+        if self.bias is not None:
+            self.bias.send()
+
         for neuron in self.neurons:
             neuron.activation()
         return self
@@ -298,6 +330,7 @@ class Layer:
         """
         for neuron in self.neurons:
             neuron.send()
+
         return self
 
     def back_propagation_if_output_layer(self, refs, speed):
