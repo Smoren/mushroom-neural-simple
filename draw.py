@@ -5,7 +5,7 @@ from structs import NeuralNetwork
 import tools
 
 DATA_FILE_NAME = 'output/draw.json'
-INPUT_COUNT = 60
+INPUT_COUNT = 45
 OUTPUT_COUNT = 4
 TRAIN_EPOCH_COUNT = 150
 ANSWERS = {
@@ -17,7 +17,6 @@ ANSWERS = {
 
 nn = NeuralNetwork()  # создаем нейронную сеть
 nn.add_input_layer(INPUT_COUNT)  # добавляем входной слой
-nn.add_layer(50, random_radius=2)  # добавляем скрытый слой
 nn.add_layer(30, random_radius=2)  # добавляем скрытый слой
 nn.add_layer(20, random_radius=2)  # добавляем скрытый слой
 nn.add_layer(10, random_radius=2)  # добавляем скрытый слой
