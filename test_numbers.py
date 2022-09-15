@@ -31,9 +31,9 @@ for digit in range(10):
 
 nn = NeuralNetwork()  # создаем нейронную сеть
 nn.add_input_layer(256)  # добавляем входной слой
-nn.add_layer(32, activation_class=activation.ActivationRelu, random_radius=0.5)  # добавляем скрытый слой
-nn.add_layer(32, activation_class=activation.ActivationSigmoid, random_radius=0.5)  # добавляем скрытый слой
-nn.add_layer(10, activation_class=activation.ActivationSigmoid, random_radius=0.5)  # добавляем выходной слой
+nn.add_layer(32, activation_class=activation.ActivationRelu, random_radius=0.5, use_bias=True)  # добавляем скрытый слой
+nn.add_layer(32, activation_class=activation.ActivationSigmoid, random_radius=0.5, use_bias=True)  # добавляем скрытый слой
+nn.add_layer(10, activation_class=activation.ActivationSigmoid, random_radius=0.5, use_bias=True)  # добавляем выходной слой
 
 import_data = tools.import_json_file(DATA_FILE_NAME)  # получим сохраненные данные связей, если сеть ранее обучали
 

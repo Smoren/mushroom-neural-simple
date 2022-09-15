@@ -133,7 +133,7 @@ class Neuron:
         :rtype list
         """
         result = []
-        for link in self.link_output:
+        for link in self.link_input:
             result.append(link.export())
 
         return result
@@ -145,7 +145,7 @@ class Neuron:
         """
         for i in range(len(links_data)):
             link_data = links_data[i]
-            link = self.link_output[i]
+            link = self.link_input[i]
 
             link.import_(link_data)
 
